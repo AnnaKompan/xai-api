@@ -6,7 +6,7 @@ import logging
 from app.routers import image_generation, image_vision, chat
 from app.core.config import settings
 from app.core.middleware import RequestLoggerMiddleware, RateLimitMiddleware
-
+from app import fortune
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -22,11 +22,10 @@ app = FastAPI(
 # Add middlewares
 app.add_middleware(RequestLoggerMiddleware)
 app.add_middleware(RateLimitMiddleware)
-
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,10 +35,15 @@ app.add_middleware(
 app.include_router(image_generation.router, prefix="/api/v1", tags=["Image Generation"])
 app.include_router(image_vision.router, prefix="/api/v1", tags=["Image Vision"])
 app.include_router(chat.router, prefix="/api/v1", tags=["Chat"])
+app.include_router(fortune.router)
+
 
 @app.get("/health", tags=["Health"])
 async def health_check():
     return {"status": "healthy", "version": "0.1.0"}
+@app.get("/")
+async def root():
+    return {"message": "Hello, world!"}
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True) 

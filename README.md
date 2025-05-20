@@ -101,31 +101,35 @@ print(f"Image URL: {image_response.data[0].url}")
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/bigsk1/xai-api
    cd xai-api
    ```
 
 2. Create a virtual environment:
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows, use: venv\Scripts\activate
    ```
 
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. Create a `.env` file in the root directory with your API keys:
+
    ```
    XAI_API_KEY=your_xai_api_key
    XAI_API_BASE=https://api.x.ai/v1
-   
+
    # Optional configuration
    DEFAULT_CHAT_MODEL=grok-3-mini-beta
    DEFAULT_IMAGE_GEN_MODEL=grok-2-image
-   DEFAULT_VISION_MODEL=grok-2-vision-latest 
+   DEFAULT_VISION_MODEL=grok-2-vision-latest
    # Optional: Rate limiting
    API_RATE_LIMIT=100
    API_RATE_LIMIT_PERIOD=3600
@@ -146,17 +150,20 @@ The API will be available at `http://localhost:8000`.
 This project includes a production-ready Docker setup with Nginx for secure deployment:
 
 1. Generate SSL certificates (for development):
+
    ```bash
    cd docker/nginx/ssl
    ./generate-self-signed-cert.sh
    ```
 
 2. Start the containers:
+
    ```bash
    docker-compose -f docker/docker-compose.yaml up -d
    ```
 
 3. The API will be available at:
+
    - HTTPS: `https://localhost/api/v1` (secured with SSL/TLS)
    - HTTP: `http://localhost/api/v1` (redirects to HTTPS)
 
@@ -242,3 +249,15 @@ For a detailed roadmap and technical implementation ideas, see the [Future API E
 ## License
 
 [MIT](LICENSE)
+
+From project root:
+
+Backend (FastAPI):
+
+uvicorn app.main:app --reload
+Frontend (Vue):
+
+cd frontend_vue
+npm install
+npm run serve
+Now navigate to http://localhost:3000/fortune and use your fortune-telling interface!
